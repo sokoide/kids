@@ -4,6 +4,7 @@ SPRITE_WIDTH = 64
 SPRITE_HEIGHT = 64
 WIDTH = SPRITE_WIDTH * 5
 HEIGHT = SPRITE_HEIGHT * 3
+TITLE = 'Pipe Game'
 
 data = [
     [8, 1, 4, 5, 0],
@@ -17,6 +18,7 @@ sprites = []
 
 def draw():
     screen.clear()
+    screen.fill((255, 255, 255))
     for s in sprites:
         s.draw()
 
