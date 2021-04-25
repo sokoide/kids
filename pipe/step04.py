@@ -9,6 +9,7 @@ data = [a,b]
 
 def draw():
     screen.clear()
+    screen.fill((255, 255, 255))
     for s in data:
         s.draw()
 
