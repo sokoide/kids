@@ -9,10 +9,10 @@ TITLE = 'Pipe Game'
 data = [
     [8, 1, 4, 5, 0],
     [0, 5, 6, 3, 0],
-    [0, 7, 1, 1, 9],
+    [0, 3, 1, 1, 9],
 ]
-data_to_file = ['empty', 'pipe1gray', 'pipe1gray', 'pipe2gray', 'pipe3gray', 'pipe3gray', 'pipe3gray', 'pipe3gray', 'well', 'pondgray']
-data_to_angle = [0, 0, 90, 0, 0, 90, 180, 270, 0, 0]
+data_to_file = ['empty', 'pipe1gray', 'pipe1gray', 'pipe2gray', 'pipe2gray', 'pipe2gray', 'pipe2gray', 'pipe3gray', 'well', 'pondgray']
+data_to_angle = [0, 0, 90, 0, 90, 180, 270, 0, 0, 0]
 sprites = []
 
 
