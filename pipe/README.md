@@ -31,6 +31,7 @@
   * int
   * float
   * str
+  * printと%の使い方
 * `if`構文とは？
 * `for`構文とは？
 * `list`（リスト）とはなんだろう？
