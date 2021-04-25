@@ -11,17 +11,19 @@ data = [
     [0, 5, 6, 3, 0],
     [0, 3, 1, 1, 9],
 ]
-# Test用データ
-data = [
-    [8, 2, 4, 5, 0],
-    [0, 5, 3, 3, 0],
-    [0, 6, 1, 2, 9],
-]
+# 終了判定Test用データ
+# data = [
+#     [8, 2, 4, 5, 0],
+#     [0, 5, 3, 3, 0],
+#     [0, 6, 1, 2, 9],
+# ]
+
 visited = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
 ]
+connected = []
 
 data_to_file = ['empty', 'pipe1gray', 'pipe1gray', 'pipe2gray',
                 'pipe2gray', 'pipe2gray', 'pipe2gray', 'pipe3gray', 'well', 'pondgray']
@@ -34,6 +36,13 @@ cleared = False
 def draw():
     screen.clear()
     screen.fill((255, 255, 255))
+
+    green = (0, 180, 0)
+    for i in connected:
+        box = Rect((SPRITE_WIDTH * i[0], SPRITE_HEIGHT * i[1]),
+                   (SPRITE_WIDTH, SPRITE_HEIGHT))
+        screen.draw.filled_rect(box, green)
+
     for s in sprites:
         s.draw()
     if cleared:
@@ -42,7 +51,7 @@ def draw():
 
 def on_mouse_down(button, pos):
     global cleared
-    global sprites
+    global connected
 
     x = int(pos[0] / SPRITE_WIDTH)
     y = int(pos[1] / SPRITE_HEIGHT)
@@ -50,6 +59,7 @@ def on_mouse_down(button, pos):
     s.angle = (s.angle - 90) % 360
 
     print('-----')
+    connected = []
     if dfs(0, 0):
         print('Goal!')
         cleared = True
@@ -105,10 +115,10 @@ def can_connect(to_x, to_y, from_x, from_y):
 
 
 def dfs(x, y):
-    global sprites
-
     if x < 0 or x >= len(data[0]) or y < 0 or y >= len(data) or visited[y][x] == 1:
         return False
+
+    connected.append((x, y))
     if data[y][x] == 9:  # Goal
         return True
 
@@ -136,6 +146,7 @@ def initialize():
             s.angle = data_to_angle[data[y][x]]
             sprites.append(s)
     stageclear = Actor('stageclear', pos=(WIDTH / 2, HEIGHT / 2))
+    dfs(0,0)
 
 
 initialize()
