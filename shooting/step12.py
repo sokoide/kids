@@ -1,3 +1,5 @@
+import random
+
 import pgzrun
 
 WIDTH = 640
@@ -6,9 +8,11 @@ HEIGHT = 480
 player = Actor('player', pos=(320, 400))
 missile = Actor('missile', pos=(0, 0))
 aliens = []
+alien_missiles = []
 show_missile = False
 left_pressed = False
 right_pressed = False
+frame = 0
 
 
 def on_key_down(key):
@@ -32,6 +36,10 @@ def on_key_up(key):
 
 def update():
     global show_missile
+    global frame
+
+    frame += 1
+    frame %= 8000000000  # frameが大きくなりすぎたら0に戻す
 
     if left_pressed:
         player.x -= 4
@@ -45,6 +53,16 @@ def update():
     else:
         show_missile = False
 
+    for alien in aliens:
+        move(alien)
+        if random.randint(0, 1000) < 7:
+            alien_fire(alien)
+
+    for alien_missile in alien_missiles[:]:
+        alien_missile.y += 4
+        if alien_missile.y >= HEIGHT + alien_missile.height / 2:
+            alien_missiles.remove(alien_missile)
+
     hit_test()
 
 
@@ -55,6 +73,8 @@ def draw():
         missile.draw()
     for alien in aliens:
         alien.draw()
+    for alien_missile in alien_missiles[:]:
+        alien_missile.draw()
 
 
 def fire():
@@ -68,6 +88,14 @@ def fire():
         missile.x = player.x
         missile.y = player.y - missile.height
         show_missile = True
+
+
+def alien_fire(alien):
+    global alien_missiles
+    if len(alien_missiles) >= 3:
+        return
+    missile = Actor('alien_missile', pos=(alien.x, alien.y + alien.height / 2))
+    alien_missiles.append(missile)
 
 
 def hit_test():
@@ -84,6 +112,11 @@ def hit(missile, alien):
     if show_missile and abs(missile.x - alien.x) < 32 and abs(missile.y - alien.y) < 32:
         return True
     return False
+
+
+def move(alien):
+    x = 2 if frame % 60 < 30 else -2
+    alien.x += x
 
 
 def init():

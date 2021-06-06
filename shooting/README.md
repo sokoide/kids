@@ -125,18 +125,19 @@ def init():
 ```
 
 * ミサイルが当たったらエイリアンを消去しよう
-* ミサイルにあったかどうかの判定はミサイルとエイリアンのx, y座標の差の絶対値が32以下の場合としよう。ミサイルとエイリアンの距離`√((x1-x2)^2 + (y1-y2)^2)`で判定しても構いません
-
+* ミサイルにあったかどうかの判定はミサイルとエイリアンのx, y座標の差の絶対値が32以下の場合としよう 
+  * ミサイルとエイリアンの距離`√((x1-x2)^2 + (y1-y2)^2)`で判定する場合は、そのまま計算してもいいですが、`math.dist((x1, y1), (x2, y2))`が便利です
+* 注意！ 配列の要素の列挙中にその配列から要素を削除してはいけません。ここでは、`aliens[:]`として`aliens`コピーを作成し、コピーアイテムをの列挙中に下の配列`aliens`から要素を削除しています
+  
 ```python
 def hit_test():
     global show_missile
 
-    for alien in aliens:
+    for alien in aliens[:]:
         if hit(missile, alien):
             missile.y = -100
             show_missile = False
             aliens.remove(alien)
-            return
 
 
 def hit(missile, alien):
@@ -188,11 +189,37 @@ def move(alien):
 ### Step 12: エイリアンもミサイルを打ってくるようにしよう
 
    * エイリアンもミサイルを打ってくるようにしよう
-   * エイリアンのミサイルに自機が当たったらゲームオーバーと表示しよう
+     * すでに3発のミサイルがエイリアンから画面内に発射されていたらそれ以上は発射しないようにしよう
+     * Step09と同様に、`alien_missiles`を巡回中にその要素を削除してはいけないので、`alien_missiles[:]`（コピー）を巡回中に`alien_missiles`の要素を削除しよう
 
-### Step 13: エイリアンを全て倒したらゲームクリア
+```python
+alien_missiles = []
+
+def alien_fire(alien):
+    global alien_missiles
+    if len(alien_missiles) >= 3:
+        return
+    missile = Actor('alien_missile', pos=(alien.x, alien.y + alien.height/2))
+    alien_missiles.append(missile)
+
+def update():
+...
+    for alien_missile in alien_missiles[:]:
+        alien_missile.y += 4
+        if alien_missile.y >= HEIGHT + alien_missile.height / 2:
+            alien_missiles.remove(alien_missile)
+            
+def draw():
+...
+    for alien_missile in alien_missiles[:]:
+        alien_missile.draw()
+```
+
+
+### Step 13: ゲームクリア/ゲームオーバー
 
   * エイリアンを全て倒したらゲームクリアと表示しよう
+  * エイリアンのミサイルに自機が当たったらゲームオーバーと表示しよう
 
 ### Step X: ミサイルを画面内3発まで発射できるようにしよう
 
