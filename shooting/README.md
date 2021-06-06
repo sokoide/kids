@@ -60,6 +60,54 @@ def update():
         player.x += 4
 ```
 
+### Step 07: 自機の移動範囲を制限して画面から出ないようにしよう
+
+* 自機が画面から出ないように、以下の処理を追加しよう
+  * 自機が画面の左端よりも左に来たら、左端に戻す
+  * 自機が画面の右端よりも右に来たら、右端に戻す
+* 上記を行うには、以下のように書くことができます
+  * `max`を使って自機のX座標を現在の値と画面の左端のうち大きい方にする
+  * `min`を使って自機のX座標を現在の値と画面の右端のうち小さい方にする
+
+```python
+    player.x = max(player.x, player.width/2)
+    player.x = min(player.x, WIDTH - player.width/2)
+```
+
+### Step 08: ミサイルを発射しよう
+
+* スペースキーでミサイルを1発だけ発射できるようにしよう
+* ミサイルが画面にないときはまたミサイルが発射でき、ミサイルが画面内にあるときは発射できないようにしよう
+* ミサイルが発射されたら`show_missile`を`True`にして、`draw()`ないで表示しよう
+
+```python
+def draw():
+    screen.clear()
+    player.draw()
+    if show_missile:
+        missile.draw()
+```
+* ミサイルは画面の外に出たら消えるようにしよう
+  
+```python
+def update():
+    global show_missile
+...
+    if missile.y >= 0 - missile.height:
+        missile.y -= 8
+    else:
+        show_missile = False
+```
+* ミサイルの画像は`missile.png`を使用しよう
+
+```python
+missile = Actor('missile', pos=(0, 0))
+show_missile = False
+```
+
+
+### Step 09: 配列を使用してミサイルを画面内3発まで発射できるようにしよう
+
 ## Note
 
 * <https://opengameart.org/content/space-shooter-redux>よりロイヤリティフリーのイラストを使用させていただきました
