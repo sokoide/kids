@@ -145,13 +145,46 @@ def hit(missile, alien):
     return False
 ```
 
-### Step 10: エイリアンを動かそう
+### Step 10: エイリアンをランダムに動かそう
 
-* `update()`内でエイリアンを左右に動かそう
+* `update()`内でエイリアンを左右にランダムに動かそう
 
-### Step 11: エイリアンもミサイルを打ってくるようにしよう
+```python
+def update():
+...
+    for alien in aliens:
+        move(alien)
+    
+def move(alien):
+    x = random.randint(-4, 4)
+    alien.x += x
+    alien.x = max(alien.x, alien.width / 2)
+    alien.x = min(alien.x, WIDTH - alien.width / 2)
+```
 
-### Step 12: エイリアンもミサイルと自機のミサイルが当たったら相殺しよう
+### Step 11: エイリアンを規則的に動かそう
+
+* Step10のエイリアンの動きはぎこちないです
+* ここではエイリアンを右に2ドット x 30回、左に2ドット x 30かい、また右に2ドット x 30回、...というように周期的に動かしましょう
+
+```python
+frame = 0
+
+
+def update():
+    global frame
+
+    frame += 1
+    frame %= 8000000000 # frameが大きくなりすぎたら0に戻す
+    
+def move(alien):
+    x = 2 if frame % 60 < 30 else -2
+    alien.x += x
+```
+
+### Step 12: エイリアンもミサイルを打ってくるようにしよう
+
+### Step 13: エイリアンもミサイルと自機のミサイルが当たったら相殺しよう
 
 ### Step X: 配列を使用してミサイルを画面内3発まで発射できるようにしよう
 
