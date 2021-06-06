@@ -5,6 +5,7 @@ HEIGHT = 480
 
 player = Actor('player', pos=(320, 400))
 missile = Actor('missile', pos=(0, 0))
+aliens = []
 show_missile = False
 left_pressed = False
 right_pressed = False
@@ -44,12 +45,16 @@ def update():
     else:
         show_missile = False
 
+    hit_test()
+
 
 def draw():
     screen.clear()
     player.draw()
     if show_missile:
         missile.draw()
+    for alien in aliens:
+        alien.draw()
 
 
 def fire():
@@ -65,4 +70,28 @@ def fire():
         show_missile = True
 
 
+def hit_test():
+    global show_missile
+
+    for alien in aliens:
+        if hit(missile, alien):
+            missile.y = -100
+            show_missile = False
+            aliens.remove(alien)
+            return
+
+
+def hit(missile, alien):
+    if show_missile and abs(missile.x - alien.x) < 32 and abs(missile.y - alien.y) < 32:
+        return True
+    return False
+
+
+def init():
+    for i in range(5):
+        alien = Actor('alien', pos=(64 + i * 128, 80))
+        aliens.append(alien)
+
+
+init()
 pgzrun.go()

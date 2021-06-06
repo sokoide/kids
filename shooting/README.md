@@ -105,8 +105,59 @@ missile = Actor('missile', pos=(0, 0))
 show_missile = False
 ```
 
+### Step 09: エイリアン（敵）を配置しよう
 
-### Step 09: 配列を使用してミサイルを画面内3発まで発射できるようにしよう
+* 配列にエイリアンを格納し、表示しよう
+  
+```python
+aliens = []
+
+def draw():
+...
+    for alien in aliens:
+        alien.draw()
+        
+def init():
+    for i in range(5):
+        alien = Actor('alien', pos=(64 + i * 128, 80))
+        aliens.append(alien)
+
+```
+
+* ミサイルが当たったらエイリアンを消去しよう
+* ミサイルにあったかどうかの判定はミサイルとエイリアンのx, y座標の差の絶対値が32以下の場合としよう。ミサイルとエイリアンの距離`√((x1-x2)^2 + (y1-y2)^2)`で判定しても構いません
+
+```python
+def hit_test():
+    global show_missile
+
+    for alien in aliens:
+        if hit(missile, alien):
+            missile.y = -100
+            show_missile = False
+            aliens.remove(alien)
+            return
+
+
+def hit(missile, alien):
+    if show_missile and abs(missile.x - alien.x) < 32 and abs(missile.y - alien.y) < 32:
+        return True
+    return False
+```
+
+### Step 10: エイリアンを動かそう
+
+* `update()`内でエイリアンを左右に動かそう
+
+### Step 11: エイリアンもミサイルを打ってくるようにしよう
+
+### Step 12: エイリアンもミサイルと自機のミサイルが当たったら相殺しよう
+
+### Step X: 配列を使用してミサイルを画面内3発まで発射できるようにしよう
+
+### Step X: Zキーで3-wayミサイルを発射できるようにしよう
+
+### Step X: Xキーでレーザーを発射できるようにしよう
 
 ## Note
 
