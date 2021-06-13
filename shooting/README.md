@@ -329,6 +329,56 @@ def hit_test():
 
 ```
 
-### Step X: Xキーでレーザーを発射できるようにしよう
+### Step 17: Xキーでレーザーを発射できるようにしよう
 
-## Note
+* `fire_laser`でレーザーを白差する際、ミサイルのプロパティに`laser`をセットします
+* 値は何でも構いませんが、今回は`True`にします
+* `hit_test`でミサイル・レーザーがエイリアンに当たった際に`missile`が`laser`プロパティを持っていたら、`missile`を削除しないようにします
+
+```python
+def on_key_down(key):
+    global left_pressed, right_pressed
+    print(key)
+    if key == keys.LEFT:
+        left_pressed = True
+...
+    elif key == keys.X:
+        fire_laser()
+        
+        
+def fire_laser():
+    if len(missiles) >= 3:
+        print('ミサイルが画面内に多数存在するため、何もしません')
+        return
+    else:
+        print('レーザーを発射します')
+        missile = Actor('laser', pos=(player.x, player.y))
+        missile.y -= missile.height
+        missile.dy = -8
+        missile.dx = 0
+        missile.laser = True
+        missiles.append(missile)
+
+
+def hit_test():
+    global gameover
+
+    for alien in aliens[:]:
+        for missile in missiles[:]:
+            # alienはすでにaliensから削除されている可能性があるので、まだ削除されていないかチェックした後hittest, removeする
+            if alien in aliens and hit(missile, alien):
+                aliens.remove(alien)
+                if not hasattr(missile, 'laser'):
+                    missiles.remove(missile)
+
+```
+
+## さらに改良するには？
+
+* 右上にスコアを表示しましょう
+* いきなりゲームが始まるのではなく、タイトル画面をつけるにはどうしたら良いでしょう
+* どうやったらエイリアンを回転できるか調べてみましょう
+  * [Pygame Zeroのページ](https://pygame-zero.readthedocs.io/ja/latest/hooks.html)に、イベントのフックや組み込みオブジェクトについて解説があります
+  * さらに詳しい情報を得るためには、[Pygame Zeroのソースコード](https://github.com/lordmauve/pgzero)を読む必要があります
+  * 例えば、Actorの持つメソッドは[こちら](https://github.com/lordmauve/pgzero/blob/master/pgzero/actor.py)に書かれています
+* どうやったらエイリアンや自機をアニメーションできるか調べてみましょう
