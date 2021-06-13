@@ -12,7 +12,9 @@ alien_missiles = []
 left_pressed = False
 right_pressed = False
 frame = 0
+counter = 0
 gameover = False
+gameclear = False
 
 def on_key_down(key):
     global left_pressed, right_pressed
@@ -35,34 +37,46 @@ def on_key_up(key):
 
 def update():
     global frame
+    global counter
+    global gameover
+    global gameclear
 
     frame += 1
     frame %= 8000000000  # frameが大きくなりすぎたら0に戻す
 
-    if left_pressed:
-        player.x -= 4
-    elif right_pressed:
-        player.x += 4
-    player.x = max(player.x, player.width / 2)
-    player.x = min(player.x, WIDTH - player.width / 2)
-
-    if missile.y >= 0 - missile.height:
-        missile.y -= 8
+    if gameover or gameclear:
+        counter += 1
+        if counter > 180:
+            reset()
+            counter = 0
+            gameover = False
+            gameclear = False
     else:
-        missile.y = -100
+        if left_pressed:
+            player.x -= 4
+        elif right_pressed:
+            player.x += 4
+        player.x = max(player.x, player.width / 2)
+        player.x = min(player.x, WIDTH - player.width / 2)
 
-    for alien in aliens:
-        move(alien)
-        if random.randint(0, 1000) < 7:
-            alien_fire(alien)
+        if missile.y >= 0 - missile.height:
+            missile.y -= 8
+        else:
+            missile.y = -100
 
-    for alien_missile in alien_missiles[:]:
-        alien_missile.y += 4
-        if alien_missile.y >= HEIGHT + alien_missile.height / 2:
-            alien_missiles.remove(alien_missile)
+        for alien in aliens:
+            move(alien)
+            if random.randint(0, 1000) < 7:
+                alien_fire(alien)
 
-    hit_test()
+        for alien_missile in alien_missiles[:]:
+            alien_missile.y += 4
+            if alien_missile.y >= HEIGHT + alien_missile.height / 2:
+                alien_missiles.remove(alien_missile)
 
+        hit_test()
+        if len(aliens) == 0:
+            gameclear = True
 
 def draw():
     screen.clear()
@@ -74,6 +88,8 @@ def draw():
         alien_missile.draw()
     if gameover:
         screen.draw.text("Game Over", centerx=WIDTH/2, centery=HEIGHT/2, fontsize=64, align="center")
+    elif gameclear:
+        screen.draw.text("Clear", centerx=WIDTH/2, centery=HEIGHT/2, fontsize=64, align="center")
 
 
 def fire():
@@ -130,6 +146,15 @@ def init():
                 alien = Actor('alien3', pos=(32 + i * 128, 168))
             aliens.append(alien)
 
+def reset():
+    global gameover
+    global aliens
+    global alien_missiles
+    aliens = []
+    alien_missiles = []
+    missile.y = -100
+
+    init()
 
 init()
 pgzrun.go()
