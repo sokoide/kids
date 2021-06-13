@@ -285,7 +285,7 @@ def hit_test():
 
 ```
 
-### Step X: Zキーで3-wayミサイルを発射できるようにしよう
+### Step 16: Zキーで3-wayミサイルを発射できるようにしよう
 
   * `Actor`には自由にプロパティを持たせることができます
   * ここでは、`missile`に`dx`と`dy`というプロパティを持たせ、その数値だけ`update`の際に動かすようにしましょう
@@ -293,6 +293,41 @@ def hit_test():
     * 左 dx=-2, dy=-8
     * 中央 dx=0, dy=-8
     * 右 dx=2, dy=-8
+    
+```python
+def on_key_down(key):
+    global left_pressed, right_pressed
+    print(key)
+    if key == keys.LEFT:
+        left_pressed = True
+...
+    elif key == keys.Z:
+        fire_3way()
+
+def fire_3way():
+    if len(missiles) >= 1:
+        print('ミサイルが画面内に多数存在するため、何もしません')
+        return
+    else:
+        print('3-way ミサイルを発射します')
+        for dx in (-2, 0, 2):
+            missile = Actor('missile', pos=(player.x, player.y))
+            missile.y -= missile.height
+            missile.dy = -8
+            missile.dx = dx
+            missiles.append(missile)
+
+def hit_test():
+    global gameover
+
+    for alien in aliens[:]:
+        for missile in missiles[:]:
+            # alienはすでにaliensから削除されている可能性があるので、まだ削除されていないかチェックした後hittest, removeする
+            if alien in aliens and hit(missile, alien):
+                aliens.remove(alien)
+                missiles.remove(missile)
+
+```
 
 ### Step X: Xキーでレーザーを発射できるようにしよう
 

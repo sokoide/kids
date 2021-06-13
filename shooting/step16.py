@@ -26,6 +26,8 @@ def on_key_down(key):
         right_pressed = True
     elif key == keys.SPACE:
         fire()
+    elif key == keys.Z:
+        fire_3way()
 
 
 def on_key_up(key):
@@ -62,7 +64,8 @@ def update():
 
         for missile in missiles[:]:
             if missile.y >= 0 - missile.height:
-                missile.y -= 8
+                missile.y += missile.dy
+                missile.x += missile.dx
             else:
                 missiles.remove(missile)
 
@@ -103,7 +106,23 @@ def fire():
         print('ミサイルを発射します')
         missile = Actor('missile', pos=(player.x, player.y))
         missile.y -= missile.height
+        missile.dy = -8
+        missile.dx = 0
         missiles.append(missile)
+
+
+def fire_3way():
+    if len(missiles) >= 1:
+        print('ミサイルが画面内に多数存在するため、何もしません')
+        return
+    else:
+        print('3-way ミサイルを発射します')
+        for dx in (-2, 0, 2):
+            missile = Actor('missile', pos=(player.x, player.y))
+            missile.y -= missile.height
+            missile.dy = -8
+            missile.dx = dx
+            missiles.append(missile)
 
 
 def alien_fire(alien):
