@@ -70,7 +70,7 @@ def draw():
     missile.draw()
     for alien in aliens:
         alien.draw()
-    for alien_missile in alien_missiles[:]:
+    for alien_missile in alien_missiles:
         alien_missile.draw()
 
 

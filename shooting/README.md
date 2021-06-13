@@ -220,7 +220,7 @@ def update():
             
 def draw():
 ...
-    for alien_missile in alien_missiles[:]:
+    for alien_missile in alien_missiles:
         alien_missile.draw()
 ```
 
@@ -249,11 +249,50 @@ def init():
   * エイリアンのミサイルに自機が当たったら`Game Over`と表示しよう
   * ゲームクリアもしくはゲームオーバーを3秒表示したら自動的にゲームを再開しよう
 
-### Step X: ミサイルを画面内3発まで発射できるようにしよう
+### Step 15: ミサイルを画面内3発まで発射できるようにしよう
 
   * 配列を使用してミサイルを画面内3発まで発射できるようにしよう
-~
+
+```python
+missiles = []
+
+def update():
+...
+        for missile in missiles[:]:
+            if missile.y >= 0 - missile.height:
+                missile.y -= 8
+            else:
+                missiles.remove(missile)
+
+def fire():
+    if len(missiles) >= 3:
+        print('ミサイルが画面内に多数存在するため、何もしません')
+        return
+    else:
+        print('ミサイルを発射します')
+        missile = Actor('missile', pos=(player.x, player.y))
+        missile.y -= missile.height;
+        missiles.append(missile)
+
+def hit_test():
+    global gameover
+
+    for alien in aliens[:]:
+        for missile in missiles[:]:
+            if hit(missile, alien):
+                aliens.remove(alien)
+                missiles.remove(missile)
+
+```
+
 ### Step X: Zキーで3-wayミサイルを発射できるようにしよう
+
+  * `Actor`には自由にプロパティを持たせることができます
+  * ここでは、`missile`に`dx`と`dy`というプロパティを持たせ、その数値だけ`update`の際に動かすようにしましょう
+　* 3-wayの左方向、中央、右方向に進むミサイルの`dx`, `dy`を以下のようにします
+    * 左 dx=-2, dy=-8
+    * 中央 dx=0, dy=-8
+    * 右 dx=2, dy=-8
 
 ### Step X: Xキーでレーザーを発射できるようにしよう
 

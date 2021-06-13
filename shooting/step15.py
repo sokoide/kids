@@ -6,7 +6,7 @@ WIDTH = 640
 HEIGHT = 480
 
 player = Actor('player', pos=(320, 440))
-missile = Actor('missile', pos=(0, 0))
+missiles = []
 aliens = []
 alien_missiles = []
 left_pressed = False
@@ -15,6 +15,7 @@ frame = 0
 counter = 0
 gameover = False
 gameclear = False
+
 
 def on_key_down(key):
     global left_pressed, right_pressed
@@ -59,10 +60,11 @@ def update():
         player.x = max(player.x, player.width / 2)
         player.x = min(player.x, WIDTH - player.width / 2)
 
-        if missile.y >= 0 - missile.height:
-            missile.y -= 8
-        else:
-            missile.y = -100
+        for missile in missiles[:]:
+            if missile.y >= 0 - missile.height:
+                missile.y -= 8
+            else:
+                missiles.remove(missile)
 
         for alien in aliens:
             move(alien)
@@ -81,9 +83,10 @@ def update():
 def draw():
     screen.clear()
     player.draw()
-    missile.draw()
     for alien in aliens:
         alien.draw()
+    for missile in missiles:
+        missile.draw()
     for alien_missile in alien_missiles:
         alien_missile.draw()
     if gameover:
@@ -93,13 +96,14 @@ def draw():
 
 
 def fire():
-    if missile.y >= -missile.height:
-        print('ミサイルが画面内に存在するため、何もしません')
+    if len(missiles) >= 3:
+        print('ミサイルが画面内に多数存在するため、何もしません')
         return
     else:
         print('ミサイルを発射します')
-        missile.x = player.x
-        missile.y = player.y - missile.height
+        missile = Actor('missile', pos=(player.x, player.y))
+        missile.y -= missile.height;
+        missiles.append(missile)
 
 
 def alien_fire(alien):
@@ -114,9 +118,10 @@ def hit_test():
     global gameover
 
     for alien in aliens[:]:
-        if hit(missile, alien):
-            missile.y = -100
-            aliens.remove(alien)
+        for missile in missiles[:]:
+            if hit(missile, alien):
+                aliens.remove(alien)
+                missiles.remove(missile)
 
     for alien_missile in alien_missiles:
         if hit(alien_missile, player):
@@ -146,13 +151,15 @@ def init():
                 alien = Actor('alien3', pos=(48 + i * 128, 168))
             aliens.append(alien)
 
+
 def reset():
     global gameover
     global aliens
     global alien_missiles
+    global missiles
     aliens = []
     alien_missiles = []
-    missile.y = -100
+    missiles = []
 
     init()
 
