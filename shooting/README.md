@@ -326,8 +326,9 @@ def hit_test():
             if alien in aliens and hit(missile, alien):
                 aliens.remove(alien)
                 missiles.remove(missile)
-
 ```
+
+![スクリーンショット](./docs/screen03.png)
 
 ### Step 17: Xキーでレーザーを発射できるようにしよう
 
@@ -370,8 +371,9 @@ def hit_test():
                 aliens.remove(alien)
                 if not hasattr(missile, 'laser'):
                     missiles.remove(missile)
-
 ```
+
+![スクリーンショット](./docs/screen04.png)
 
 ## さらに改良するには？
 
