@@ -78,14 +78,22 @@ def update():
 
 * スペースキーでミサイルを1発だけ発射できるようにしよう
 * ミサイルが画面にないときはまたミサイルが発射でき、ミサイルが画面内にあるときは発射できないようにしよう
-* ミサイルが発射されたら`show_missile`を`True`にして、`draw()`ないで表示しよう
+* ミサイルが発射されたら`missile`の位置を自機の位置あたりに設定し、`draw()`内で表示されるようにしよう
 
 ```python
+def fire():
+    if missile.y >= -missile.height:
+        print('ミサイルが画面内に存在するため、何もしません')
+        return
+    else:
+        print('ミサイルを発射します')
+        missile.x = player.x
+        missile.y = player.y - missile.height
+
 def draw():
     screen.clear()
     player.draw()
-    if show_missile:
-        missile.draw()
+    missile.draw()
 ```
 * ミサイルは画面の外に出たら消えるようにしよう
   
@@ -96,7 +104,7 @@ def update():
     if missile.y >= 0 - missile.height:
         missile.y -= 8
     else:
-        show_missile = False
+        missile.y = -100
 ```
 * ミサイルの画像は`missile.png`を使用しよう
 
@@ -218,19 +226,35 @@ def draw():
         alien_missile.draw()
 ```
 
-### Step 14: エイリアンの種類を増やそう
+### Step 13: エイリアンの種類を増やそう
 
   * 青いイリアンの下に赤いエイリアンの列、その下に緑のエイリアンの列を作ろう
 
-### Step 15: ゲームクリア/ゲームオーバー
+```python
+def init():
+    for j in range(3):
+        for i in range(5):
+            if j==0:
+                alien = Actor('alien1', pos=(32 + i * 128, 40))
+            elif j==1:
+                alien = Actor('alien2', pos=(32 + i * 128, 104))
+            else:
+                alien = Actor('alien3', pos=(32 + i * 128, 168))
+            aliens.append(alien)
+```
+
+![スクリーンショット](./docs/screen02.png)
+
+### Step 14: ゲームクリア/ゲームオーバー
 
   * エイリアンを全て倒したらゲームクリアと表示しよう
   * エイリアンのミサイルに自機が当たったらゲームオーバーと表示しよう
+  * ゲームクリアもしくはゲームオーバーを3秒表示したら自動的にゲームを再開しよう
 
 ### Step X: ミサイルを画面内3発まで発射できるようにしよう
 
   * 配列を使用してミサイルを画面内3発まで発射できるようにしよう
-
+~
 ### Step X: Zキーで3-wayミサイルを発射できるようにしよう
 
 ### Step X: Xキーでレーザーを発射できるようにしよう
