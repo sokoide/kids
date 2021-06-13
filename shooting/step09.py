@@ -3,7 +3,7 @@ import pgzrun
 WIDTH = 640
 HEIGHT = 480
 
-player = Actor('player', pos=(320, 400))
+player = Actor('player', pos=(320, 440))
 missile = Actor('missile', pos=(0, 0))
 aliens = []
 show_missile = False
@@ -88,7 +88,7 @@ def hit(missile, alien):
 
 def init():
     for i in range(5):
-        alien = Actor('alien', pos=(64 + i * 128, 80))
+        alien = Actor('alien1', pos=(32 + i * 128, 40))
         aliens.append(alien)
 
 
