@@ -115,11 +115,11 @@ def init():
     for j in range(3):
         for i in range(5):
             if j==0:
-                alien = Actor('alien1', pos=(32 + i * 128, 40))
+                alien = Actor('alien1', pos=(48 + i * 128, 40))
             elif j==1:
-                alien = Actor('alien2', pos=(32 + i * 128, 104))
+                alien = Actor('alien2', pos=(48 + i * 128, 104))
             else:
-                alien = Actor('alien3', pos=(32 + i * 128, 168))
+                alien = Actor('alien3', pos=(48 + i * 128, 168))
             aliens.append(alien)
 
 

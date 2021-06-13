@@ -79,7 +79,7 @@ def hit(source, target):
 
 def init():
     for i in range(5):
-        alien = Actor('alien1', pos=(32 + i * 128, 40))
+        alien = Actor('alien1', pos=(48 + i * 128, 40))
         aliens.append(alien)
 
 
