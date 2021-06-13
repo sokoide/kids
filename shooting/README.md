@@ -142,8 +142,6 @@ def init():
   
 ```python
 def hit_test():
-    global show_missile
-
     for alien in aliens[:]:
         if hit(missile, alien):
             missile.y = -100

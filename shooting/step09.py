@@ -6,7 +6,6 @@ HEIGHT = 480
 player = Actor('player', pos=(320, 440))
 missile = Actor('missile', pos=(0, 0))
 aliens = []
-show_missile = False
 left_pressed = False
 right_pressed = False
 
@@ -31,8 +30,6 @@ def on_key_up(key):
 
 
 def update():
-    global show_missile
-
     if left_pressed:
         player.x -= 4
     elif right_pressed:
@@ -43,7 +40,7 @@ def update():
     if missile.y >= 0 - missile.height:
         missile.y -= 8
     else:
-        show_missile = False
+        missile.y = -100
 
     hit_test()
 
@@ -51,37 +48,31 @@ def update():
 def draw():
     screen.clear()
     player.draw()
-    if show_missile:
-        missile.draw()
+    missile.draw()
     for alien in aliens:
         alien.draw()
 
 
 def fire():
-    global show_missile
-
     if missile.y >= -missile.height:
         print('ミサイルが画面内に存在するため、何もしません')
         return
-    if not show_missile:
+    else:
         print('ミサイルを発射します')
         missile.x = player.x
         missile.y = player.y - missile.height
-        show_missile = True
 
 
 def hit_test():
-    global show_missile
-
     for alien in aliens[:]:
         if hit(missile, alien):
             missile.y = -100
-            show_missile = False
             aliens.remove(alien)
 
 
-def hit(missile, alien):
-    if show_missile and abs(missile.x - alien.x) < 32 and abs(missile.y - alien.y) < 32:
+def hit(source, target):
+    # return source.distance_to(target) < 32でもいいです
+    if abs(source.x - target.x) < 32 and abs(source.y - target.y) < 32:
         return True
     return False
 

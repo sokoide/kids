@@ -5,7 +5,6 @@ HEIGHT = 480
 
 player = Actor('player', pos=(320, 400))
 missile = Actor('missile', pos=(0, 0))
-show_missile = False
 left_pressed = False
 right_pressed = False
 
@@ -30,8 +29,6 @@ def on_key_up(key):
 
 
 def update():
-    global show_missile
-
     if left_pressed:
         player.x -= 4
     elif right_pressed:
@@ -42,27 +39,23 @@ def update():
     if missile.y >= 0 - missile.height:
         missile.y -= 8
     else:
-        show_missile = False
+        missile.y = -100
 
 
 def draw():
     screen.clear()
     player.draw()
-    if show_missile:
-        missile.draw()
+    missile.draw()
 
 
 def fire():
-    global show_missile
-
     if missile.y >= -missile.height:
         print('ミサイルが画面内に存在するため、何もしません')
         return
-    if not show_missile:
+    else:
         print('ミサイルを発射します')
         missile.x = player.x
         missile.y = player.y - missile.height
-        show_missile = True
 
 
 pgzrun.go()
