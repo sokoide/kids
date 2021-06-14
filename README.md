@@ -11,21 +11,30 @@
   * [パイプゲーム](./pipe/)
     * スタート地点からゴール地点までパイプをつなぐパズルゲーム
     * Python/Pygame Zeroの基本と再帰・経路探索が学べます
-  * TBD: [ドットイーティングゲーム](./doteat/)
-    * パックマンのようなドットイーター型アクションゲーム
   * TBD: [ジャンプスクロールゲーム](./flappy/)
     * フラッピーバードのようなジャンプしながらスクロールしていくゲーム
+  * TBD: [2048ゲーム](./2048/)
+    * 2048を作るパズルゲーム
 
 ## 共通セットアップ手順
 
-* Python 3の最新版をインストール(2021/6/5現在3.9.5)
-  * <https://www.python.org/downloads/>からダウンロードしインストール
+* Python 3の最新版をインストール(2021/6/14 現在3.9.5)
+  * <https://pythonlinks.python.jp/ja/index.html/>からダウンロードしインストール
+  * Windowsの場合
+    * 上記ページに書かれている手順で、自分のWindowsが64ビットか32ビットか確認し、同じビットの最新のPythonをインストール数ｒ
+    * より詳細な手順は<https://www.python.jp/install/windows/install.html>にあります
+  * Macの場合
+    * 上記サイトに行き`macOS`のタブを選び、最新のPythonをインストールする
 * PyCharmのCommunity版インストール
-  * <https://www.jetbrains.com/ja-jp/pycharm/download/>からダウンロードしインストール
+  * <https://www.jetbrains.com/ja-jp/pycharm/>のダウンロードボタンを押し、WindowsかmacOSの`Community`版をダウンロードし、インストールする
+* インストールの確認
+  * TBD
 
 ## Apple Silicon搭載Macの注意事項
 
-* Pygame Zeroで使用するPygameは現状ではApple Silicon搭載のMacではNativeでは動きません
-* 以下の手順でIntel版のPython3をインストールしてください
-  * <https://www.python.org/downloads/mac-osx/>より"macOS 64-bit Intel installer"を選択・ダウンロードし、インストール
-* PyCharmはNativeで動きます
+* 画面左上のアップルメニューから"このMacについて"を選ぶと、自分のMacがIntelかApple Siliconかわかります
+* ChipがM1となっていたらApple Siliconです
+  ![このMacについて](./docs/aboutmac.png)
+* Pygame Zeroで使用するPygameは現状ではApple Silicon搭載のMacでは元からインストールされているApple Silicon用のPythonでは動きません
+* 上記の手順でIntel版のPython3をインストールしてください
+* PythonはIntel版が必要ですが、PyCharmはApple Silicon Nativeで動きます
