@@ -13,6 +13,8 @@
 * 画面サイズは幅640、高さ480にしよう
 * 自機の初期表示位置は(320,400)にしよう
 
+![スクリーンショット](./docs/step04.png)
+
 ### Step 05: 矢印キーで自機を移動しよう
 
 * ボタンは<https://pygame-zero.readthedocs.io/ja/latest/hooks.html>にある`on_key_down`で以下のように取得することができます
@@ -113,6 +115,8 @@ missile = Actor('missile', pos=(0, 0))
 show_missile = False
 ```
 
+![スクリーンショット](./docs/step08.png)
+
 ### Step 09: エイリアン（敵）を配置しよう
 
 * 配列にエイリアンを格納し、表示しよう
@@ -156,7 +160,8 @@ def hit(missile, alien):
 ```
 
 * ここまでのステップで少しゲームとして遊べるようになります。
-![スクリーンショット](./docs/screen01.png)
+
+![スクリーンショット](./docs/step09.png)
 
 ### Step 10: エイリアンをランダムに動かそう
 
@@ -174,6 +179,8 @@ def move(alien):
     alien.x = max(alien.x, alien.width / 2)
     alien.x = min(alien.x, WIDTH - alien.width / 2)
 ```
+
+![スクリーンショット](./docs/step10.png)
 
 ### Step 11: エイリアンを規則的に動かそう
 
@@ -194,6 +201,8 @@ def move(alien):
     x = 2 if frame % 60 < 30 else -2
     alien.x += x
 ```
+
+![スクリーンショット](./docs/step11.png)
 
 ### Step 12: エイリアンもミサイルを打ってくるようにしよう
 
@@ -224,6 +233,8 @@ def draw():
         alien_missile.draw()
 ```
 
+![スクリーンショット](./docs/step12.png)
+
 ### Step 13: エイリアンの種類を増やそう
 
   * 青いイリアンの下に赤いエイリアンの列、その下に緑のエイリアンの列を作ろう
@@ -241,7 +252,7 @@ def init():
             aliens.append(alien)
 ```
 
-![スクリーンショット](./docs/screen02.png)
+![スクリーンショット](./docs/step13.png)
 
 ### Step 14: ゲームクリア/ゲームオーバー
 
@@ -328,7 +339,7 @@ def hit_test():
                 missiles.remove(missile)
 ```
 
-![スクリーンショット](./docs/screen03.png)
+![スクリーンショット](./docs/step16.png)
 
 ### Step 17: Xキーでレーザーを発射できるようにしよう
 
@@ -373,7 +384,7 @@ def hit_test():
                     missiles.remove(missile)
 ```
 
-![スクリーンショット](./docs/screen04.png)
+![スクリーンショット](./docs/step17.png)
 
 ## さらに改良するには？
 
