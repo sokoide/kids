@@ -9,7 +9,7 @@
 
 ### Step 04: 自機を表示しよう
 
-* [ここからはじめよう](../common/README.md)のStep 2と同様の手順で`images`内の`player.png`を自機として表示してみよう
+* [ここからはじめよう](../common_py/README.md)のStep 2と同様の手順で`images`内の`player.png`を自機として表示してみよう
 * 画面サイズは幅640、高さ480にしよう
 * 自機の初期表示位置は(320,400)にしよう
 
@@ -98,7 +98,7 @@ def draw():
     missile.draw()
 ```
 * ミサイルは画面の外に出たら消えるようにしよう
-  
+
 ```python
 def update():
     global show_missile
@@ -131,7 +131,7 @@ def draw():
 ...
     for alien in aliens:
         alien.draw()
-        
+
 def init():
     for i in range(5):
         alien = Actor('alien', pos=(64 + i * 128, 40))
@@ -140,10 +140,10 @@ def init():
 ```
 
 * ミサイルが当たったらエイリアンを消去しよう
-* ミサイルにあったかどうかの判定はミサイルとエイリアンのx, y座標の差の絶対値が32以下の場合としよう 
+* ミサイルにあったかどうかの判定はミサイルとエイリアンのx, y座標の差の絶対値が32以下の場合としよう
   * ミサイルとエイリアンの距離`√((x1-x2)^2 + (y1-y2)^2)`で判定する場合は、そのまま計算してもいいですが、`math.dist((x1, y1), (x2, y2))`やpygame zeroの`Actor`のメソッドである`distance_to(target_actor)`が便利です
 * 注意！ 配列の要素の列挙中にその配列から要素を削除してはいけません。ここでは、`aliens[:]`として`aliens`コピーを作成し、コピーの中のアイテムを列挙中に元の配列`aliens`から要素を削除しています
-  
+
 ```python
 def hit_test():
     for alien in aliens[:]:
@@ -172,7 +172,7 @@ def update():
 ...
     for alien in aliens:
         move(alien)
-    
+
 def move(alien):
     x = random.randint(-4, 4)
     alien.x += x
@@ -196,7 +196,7 @@ def update():
 
     frame += 1
     frame %= 8000000000 # frameが大きくなりすぎたら0に戻す
-    
+
 def move(alien):
     x = 2 if frame % 60 < 30 else -2
     alien.x += x
@@ -226,7 +226,7 @@ def update():
         alien_missile.y += 4
         if alien_missile.y >= HEIGHT + alien_missile.height / 2:
             alien_missiles.remove(alien_missile)
-            
+
 def draw():
 ...
     for alien_missile in alien_missiles:
@@ -306,7 +306,7 @@ def hit_test():
     * 左 dx=-2, dy=-8
     * 中央 dx=0, dy=-8
     * 右 dx=2, dy=-8
-    
+
 ```python
 def on_key_down(key):
     global left_pressed, right_pressed
@@ -358,8 +358,8 @@ def on_key_down(key):
 ...
     elif key == keys.X:
         fire_laser()
-        
-        
+
+
 def fire_laser():
     if len(missiles) >= 3:
         print('ミサイルが画面内に多数存在するため、何もしません')
